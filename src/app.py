@@ -1,8 +1,11 @@
 from flask import Flask, render_template, request, url_for, flash, redirect
+from flask_bootstrap import Bootstrap5
+
 import csv
 import uuid
 
 app = Flask (__name__)
+Bootstrap5(app)
 
 def addEvent(dataContent):
     with open('eventos.csv', 'a', newline="") as csvFileEvent:
@@ -22,11 +25,11 @@ def homepage():
 
 
 @app.route("/cerimonial/event")
-def eventos():
+def addNewEvent():
     return render_template("createEvent.html")
                            
 @app.route("/cerimonial/createEvent", methods=['POST'])
-def criateEvent():
+def createEvent():
     #Get vars posted from html form
     eventName = request.form["nomeEvento"]
     eventDate = request.form["dataEvento"]
@@ -46,8 +49,8 @@ def confirmPresense(idEvent):
     addGuest([idGuest, guestName, guestPhone, guestEmail, idEvent])
     return render_template("confirmed.html", guestName=guestName)
 
-@app.route("/guest/confirm/<idi>")
-def confirmaepresenca(idi):
+@app.route("/guest/confirm/<idi>", methods=["GET"])
+def formPresense(idi):
     return render_template("confirmForm.html", idi2=idi)
 
 @app.route("/cerimonial/listConfirmed/<idEvento>")
@@ -64,4 +67,4 @@ def listapresenca(idEvento):
 
                        
 if __name__ == "__main__":
-    app.run(debug=True, use_reloader=False)
+    app.run(debug=True, use_reloader=True)

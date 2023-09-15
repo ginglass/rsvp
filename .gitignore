@@ -1,2 +1,4 @@
 src/convidados.csv
 src/eventos.csv
+venv/*
+src/__pycache__/*
